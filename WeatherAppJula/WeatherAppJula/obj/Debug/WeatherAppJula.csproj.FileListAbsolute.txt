@@ -1,0 +1,16 @@
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\bin\Debug\WeatherAppJula.exe.config
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\bin\Debug\WeatherAppJula.exe
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\bin\Debug\WeatherAppJula.pdb
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula.csproj.AssemblyReference.cache
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula.csproj.SuggestedBindingRedirects.cache
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\MainWindow.g.cs
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\App.g.cs
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula_MarkupCompile.cache
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula_MarkupCompile.lref
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\MainWindow.baml
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula.g.resources
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula.Properties.Resources.resources
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula.csproj.GenerateResource.cache
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula.csproj.CoreCompileInputs.cache
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula.exe
+C:\Users\julyk\source\repos\WeatherAppJula\WeatherAppJula\obj\Debug\WeatherAppJula.pdb
