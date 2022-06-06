@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using System.Data.SQLite;
+using System.Data.Common;
 
 namespace WeatherAppJula
 {
@@ -27,7 +29,7 @@ namespace WeatherAppJula
         {
             InitializeComponent();
         }
-
+        
         class WeatherData
         {
             public WeatherData(string City)
@@ -111,32 +113,100 @@ namespace WeatherAppJula
 
         }
 
+
+        class DataBase
+        {
+        
+            public static SQLiteConnection CreateConnection()
+            {
+
+                SQLiteConnection sqlite_conn;
+                sqlite_conn = new SQLiteConnection("Data Source=database.db; Version = 3; New = True; Compress = True; ");
+                try
+                {
+                    sqlite_conn.Open();
+                }
+                catch (Exception ex)
+                {
+
+                }
+                return sqlite_conn;
+            }
+
+            public static void CreateTable(SQLiteConnection conn)
+            {
+                SQLiteCommand sqlite_cmd;
+                string sql = "CREATE TABLE IF NOT EXISTS weather2 (city TEXT, temp TEXT, description TEXT, date TEXT);";
+                sqlite_cmd = conn.CreateCommand();
+                sqlite_cmd.CommandText = sql;
+                sqlite_cmd.ExecuteNonQuery();
+
+            }
+
+            public static void InsertData(SQLiteConnection conn, string city, string temp, string description, string date)
+            {
+                SQLiteCommand sqlite_cmd;
+                string sql = "INSERT INTO weather2 (city, temp, description, date) VALUES ('" + city + "', '" + temp + "', '" + description + "', '" + date + "');";
+                sqlite_cmd = conn.CreateCommand();
+                sqlite_cmd.CommandText = sql;
+                sqlite_cmd.ExecuteNonQuery();
+            }
+
+            public static string ReadData(SQLiteConnection conn)
+            {
+                SQLiteDataReader sqlite_datareader;
+                SQLiteCommand sqlite_cmd;
+                sqlite_cmd = conn.CreateCommand();
+                sqlite_cmd.CommandText = "SELECT * FROM weather2";
+                sqlite_datareader = sqlite_cmd.ExecuteReader();
+
+                List<string> listaZrekordami = new List<string>();
+
+                foreach (DbDataRecord record in sqlite_datareader)
+                {
+                    listaZrekordami.Add(record["city"].ToString() + " " + record["temp"].ToString() + " " + record["description"].ToString() + " " + record["date"].ToString());
+                }
+                conn.Close();
+                return string.Join("\n", listaZrekordami);
+            }
+        }
+
         private void FindWeather(object sender, RoutedEventArgs e)
         {
-
-            WeatherData Data = new WeatherData(inputLocation.Text);
-            Data.CheckWeather();
-            locationName.Text = Data.City;
-            temp.Text = Math.Round(Data.Temp).ToString() + "°C";
-            //weatherDescription.Text = Data.Description;
-            // coś tutaj nie działa czeba to sprawdzić później
-            string iconUrl = "http://openweathermap.org/img/wn/" + Data.Icon + "@2x.png";
-            smallIcon.Source = new BitmapImage(new Uri(iconUrl));
-            time.Text = DateTime.Now.ToString();
-            
-            //if (Data.Temp > 15)
-            //{
-            //    this.Background = new ImageBrush(new BitmapImage(new Uri(BaseUriHelper.GetBaseUri(this), "Images/warm.png")));
-            //}
-
+            if (databaseRecords.Visibility == Visibility.Visible)
+            {
+                databaseRecords.Visibility = Visibility.Hidden;
+                locationName.Visibility = Visibility.Visible;
+                temp.Visibility = Visibility.Visible;
+                weatherDescription.Visibility = Visibility.Visible;
+                time.Visibility = Visibility.Visible;
+            }
+                WeatherData Data = new WeatherData(inputLocation.Text);
+                Data.CheckWeather();
+                locationName.Text = Data.City;
+                temp.Text = Math.Round(Data.Temp).ToString() + "°C";
+                weatherDescription.Text = Data.Description;
+                time.Text = DateTime.Now.ToString();
         }
-        
+
         private void SendToDatabase(object sender, RoutedEventArgs e)
         {
-
+            SQLiteConnection conn = DataBase.CreateConnection();
+            DataBase.CreateTable(conn);
+            DataBase.InsertData(conn, locationName.Text, temp.Text, weatherDescription.Text, time.Text);
+            databaseText.Text = "Przesłano"; 
         }
 
-
+        private void ShowRecords(object sender, RoutedEventArgs e)
+        {
+            locationName.Visibility = Visibility.Hidden;
+            temp.Visibility = Visibility.Hidden;
+            weatherDescription.Visibility = Visibility.Hidden;
+            time.Visibility = Visibility.Hidden;
+            databaseText.Visibility = Visibility.Hidden;
+            databaseRecords.Visibility = Visibility.Visible;
+            databaseRecords.Text = DataBase.ReadData(DataBase.CreateConnection());
+        }
     }
 }
 
