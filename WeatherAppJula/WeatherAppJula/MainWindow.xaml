@@ -26,12 +26,16 @@
                 <RowDefinition/>
 
             </Grid.RowDefinitions>
-
             <TextBox 
-                Margin="32,30,32,108"
-                FontSize="40"
+                Margin="32,30,167,122"
+                FontSize="30"
                 x:Name="inputLocation" 
-                TextAlignment="Center" BorderBrush="White">
+                Text="Nazwa miasta"
+                TextAlignment="Center" 
+                BorderBrush="White">
+                <TextBox.Foreground>
+                    <SolidColorBrush Color="Black" Opacity="0.7"/>
+                </TextBox.Foreground>
                 <TextBox.Effect>
                     <DropShadowEffect
                       ShadowDepth="4"
@@ -42,23 +46,22 @@
                 </TextBox.Effect>
             </TextBox>
             <Button 
-                Grid.Column="0" Margin="32,116,338,38"
+                Grid.Column="0" Margin="357,30,32,122"
                 FontSize="24"
                 Background="White" 
                 Click="FindWeather"
                 Content="Szukaj"
                 />
-            <Button Margin="185,116,185,0"
+            <Button Margin="357,100,32,0"
                 FontSize="24"
                 Background="White" 
                 Click="SendToDatabase" 
-                Height="46" 
+                Height="48" 
                 VerticalAlignment="Top"
                 Content="Prześlij"
                 />
             <TextBlock
                 Grid.Row="1"
-                Text="Londyn"
                 TextAlignment="Center"
                 FontSize="70"
                 Foreground="#FFFFFF"
@@ -71,24 +74,22 @@
                       ShadowDepth="4"
                       Direction="330"
                       Color="Black"
-                      Opacity="0.5"
+                      Opacity="0.7"
                       BlurRadius="4"/>
                 </TextBlock.Effect>
             </TextBlock>
             <TextBlock
-                Text="12:19 PM 04.06.22"
                 FontSize="25"
                 Foreground="Black"
-                Margin="40,123,40,331" 
+                Margin="48,176,32,278" 
                 RenderTransformOrigin="0.533,0.359"
                 TextAlignment="Center"
                 x:Name="time" Grid.Row="1"
                 />
             <TextBlock
-                Text="16°C"
                 FontSize="100"
                 Foreground="#FFFFFF"
-                Margin="134,226,134,164" 
+                Margin="142,222,126,168" 
                 RenderTransformOrigin="0.533,0.359"
                 x:Name="temp"
                 TextAlignment="Center" Grid.Row="1" FontWeight="Bold"
@@ -98,40 +99,51 @@
                       ShadowDepth="4"
                       Direction="330"
                       Color="Black"
-                      Opacity="0.5"
+                      Opacity="0.7"
                       BlurRadius="4"/>
                 </TextBlock.Effect>
             </TextBlock>
             <TextBlock
                 Grid.Row="1"
-                Text="Rain"
                 FontSize="50"
                 Foreground="#FFFFFF"
-                Margin="0,341,0,79" 
+                Margin="0,96,0,324" 
                 RenderTransformOrigin="0.544,-0.053"
                 x:Name="weatherDescription"
-                TextAlignment="Center"
-                />
+                TextAlignment="Center" FontWeight="Bold"
+                >
+                <TextBlock.Effect>
+                    <DropShadowEffect
+                      ShadowDepth="4"
+                      Direction="330"
+                      Color="Black"
+                      Opacity="0.4"
+                      BlurRadius="4"/>
+                </TextBlock.Effect>
+            </TextBlock>
             <TextBlock
                 Text=""
                 FontSize="25"
-                Foreground="Black"
-                Margin="0,444,0,10" 
+                Margin="84,159,68,495" 
                 RenderTransformOrigin="0.533,0.359"
                 TextAlignment="Center"
-                x:Name="databaseText" Grid.Row="1"
-                />
-            <Button Margin="338,116,32,0"
+                x:Name="databaseText" Grid.RowSpan="2"
+                >
+                <TextBlock.Foreground>
+                    <SolidColorBrush Color="Black" Opacity="0.6"/>
+                </TextBlock.Foreground>
+            </TextBlock>
+            <Button Margin="146,423,130,0"
                 FontSize="24"
                 Background="White" 
-                Click="ShowRecords" 
                 Height="46" 
+                Click="ShowRecords"
                 VerticalAlignment="Top"
-                Content="Wyświetl"
+                Content="Wyświetl tabele" Grid.Row="1" RenderTransformOrigin="0.497,0.528"
                 />
             <TextBlock
                 Text=""
-                FontSize="15"
+                FontSize="16"
                 Foreground="Black"
                 Margin="0,5,10,5" 
                 RenderTransformOrigin="0.533,0.359"
@@ -140,6 +152,25 @@
                 Grid.Row="1"
                 Visibility="Hidden"
                 />
+            <TextBox 
+                Margin="32,100,167,52"
+                FontSize="30"
+                x:Name="TableName"
+                Text="Nazwa tabeli"
+                TextAlignment="Center" BorderBrush="White">
+                <TextBox.Foreground>
+                    <SolidColorBrush Color="Black" Opacity="0.7"/>
+                </TextBox.Foreground>
+                <TextBox.Effect>
+                    <DropShadowEffect
+                        ShadowDepth="4"
+                        Direction="330"
+                        Color="Black"
+                        Opacity="0.5"
+                        BlurRadius="4"/>
+                </TextBox.Effect>
+            </TextBox>
+
         </Grid>
     </Border>
 </Window>

@@ -133,31 +133,31 @@ namespace WeatherAppJula
                 return sqlite_conn;
             }
 
-            public static void CreateTable(SQLiteConnection conn)
+            public static void CreateTable(SQLiteConnection conn, string TableName)
             {
                 SQLiteCommand sqlite_cmd;
-                string sql = "CREATE TABLE IF NOT EXISTS weather2 (city TEXT, temp TEXT, description TEXT, date TEXT);";
+                string sql = "CREATE TABLE IF NOT EXISTS "+TableName+"(city TEXT, temp TEXT, description TEXT, date TEXT);";
                 sqlite_cmd = conn.CreateCommand();
                 sqlite_cmd.CommandText = sql;
                 sqlite_cmd.ExecuteNonQuery();
 
             }
 
-            public static void InsertData(SQLiteConnection conn, string city, string temp, string description, string date)
+            public static void InsertData(SQLiteConnection conn, string city, string temp, string description, string date, string TableName)
             {
                 SQLiteCommand sqlite_cmd;
-                string sql = "INSERT INTO weather2 (city, temp, description, date) VALUES ('" + city + "', '" + temp + "', '" + description + "', '" + date + "');";
+                string sql = "INSERT INTO "+TableName+" (city, temp, description, date) VALUES ('" + city + "', '" + temp + "', '" + description + "', '" + date + "');";
                 sqlite_cmd = conn.CreateCommand();
                 sqlite_cmd.CommandText = sql;
                 sqlite_cmd.ExecuteNonQuery();
             }
 
-            public static string ReadData(SQLiteConnection conn)
+            public static string ReadData(SQLiteConnection conn, string TableName)
             {
                 SQLiteDataReader sqlite_datareader;
                 SQLiteCommand sqlite_cmd;
                 sqlite_cmd = conn.CreateCommand();
-                sqlite_cmd.CommandText = "SELECT * FROM weather2";
+                sqlite_cmd.CommandText = "SELECT * FROM "+TableName;
                 sqlite_datareader = sqlite_cmd.ExecuteReader();
 
                 List<string> listaZrekordami = new List<string>();
@@ -167,13 +167,18 @@ namespace WeatherAppJula
                     listaZrekordami.Add(record["city"].ToString() + " " + record["temp"].ToString() + " " + record["description"].ToString() + " " + record["date"].ToString());
                 }
                 conn.Close();
-                return string.Join("\n", listaZrekordami);
+                string nazwaTabeli = "Nazwa tabeli: "+TableName+"\n";
+                return nazwaTabeli+string.Join("\n", listaZrekordami);
             }
         }
 
         private void FindWeather(object sender, RoutedEventArgs e)
         {
-            if (databaseRecords.Visibility == Visibility.Visible)
+            if (inputLocation.Text == "" || inputLocation.Text == "Nazwa miasta")
+            {
+                MessageBox.Show("Wprowadź nazwę miasta");
+            }
+                if (databaseRecords.Visibility == Visibility.Visible)
             {
                 databaseRecords.Visibility = Visibility.Hidden;
                 locationName.Visibility = Visibility.Visible;
@@ -190,22 +195,30 @@ namespace WeatherAppJula
         }
 
         private void SendToDatabase(object sender, RoutedEventArgs e)
-        {
+        { 
             SQLiteConnection conn = DataBase.CreateConnection();
-            DataBase.CreateTable(conn);
-            DataBase.InsertData(conn, locationName.Text, temp.Text, weatherDescription.Text, time.Text);
+            DataBase.CreateTable(conn, TableName.Text);
+            DataBase.InsertData(conn, locationName.Text, temp.Text, weatherDescription.Text, time.Text, TableName.Text);
             databaseText.Text = "Przesłano"; 
         }
 
         private void ShowRecords(object sender, RoutedEventArgs e)
         {
-            locationName.Visibility = Visibility.Hidden;
-            temp.Visibility = Visibility.Hidden;
-            weatherDescription.Visibility = Visibility.Hidden;
-            time.Visibility = Visibility.Hidden;
-            databaseText.Visibility = Visibility.Hidden;
-            databaseRecords.Visibility = Visibility.Visible;
-            databaseRecords.Text = DataBase.ReadData(DataBase.CreateConnection());
+            if (TableName.Text == "Nazwa tabeli" || TableName.Text == "")
+            {
+                MessageBox.Show("Wprowadź nazwę tabeli");
+            }
+            else
+            {
+                locationName.Visibility = Visibility.Hidden;
+                temp.Visibility = Visibility.Hidden;
+                weatherDescription.Visibility = Visibility.Hidden;
+                time.Visibility = Visibility.Hidden;
+                databaseText.Visibility = Visibility.Hidden;
+                databaseRecords.Visibility = Visibility.Visible;
+                databaseRecords.Text = DataBase.ReadData(DataBase.CreateConnection(), TableName.Text);
+            }
+            
         }
     }
 }
